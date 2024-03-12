@@ -1,0 +1,33 @@
+extends ../../layouts/default.pug
+include ../../mixins/table-tree.pug
+block main
+	if(role.permission.includes("products-category_view"))
+		h1 Danh mục sản phẩm
+		.card.mb-3
+			.card-header Danh sách sản phẩm 
+			.card-body
+				.row 
+					.col-8 
+					.col-4 
+						if(role.permission.includes("products-category_create"))
+							a(
+								href=`${prefixAdmin}/products-category/create`
+								class="btn btn-outline-success"
+							) +Thêm mới
+		.card-body
+				table(
+					class="table table-hoverb table-sm"
+					checkbox-multi
+				) 
+					thead
+						tr 
+							td 
+								input(type="checkbox" name="checkall")
+							td STT 
+							td Hình ảnh 
+							td Tiêu đề
+							td Vị trí
+							td Trạng thái 
+							td Hành động
+					tbody
+						+table-tree(record)

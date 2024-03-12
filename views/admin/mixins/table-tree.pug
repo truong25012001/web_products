@@ -1,0 +1,71 @@
+mixin table-tree(record, level = 1)
+	each items in record
+		- const prefix = Array(level + 1).join("-- ") 
+		tr 
+			td 
+				input(
+					type="checkbox"
+					value=items.id
+					name="id"
+				)
+			td #{items.index}
+			td 
+				img(
+					src=items.thumbnail
+					alt=items.title
+					width="100px"
+					height="auto"
+				)
+			td #{prefix}#{items.title}
+			td #{items.price}$
+			td 
+				input(
+					type="number"
+					value=items.position 
+					style="width: 60px"
+					name="position"
+					min="1"
+				)
+			td
+				if(role.permission.includes("products-category_edit"))
+					if(items.status == "active")
+						a(
+							href="javascript:;"
+							data-status="active"
+							data-id=items.id
+							button-change-status
+							class="badge badge-success"
+						) Hoạt động
+					else
+						a(
+							href="javascript:;" 
+							data-status="inactive"
+							data-id=items.id
+							button-change-status
+							class="badge badge-danger"
+						) Dừng hoạt động
+				else 
+					if(items.status == "active")
+						span(
+							class="badge badge-success"
+						) Hoạt động
+					else
+						span(
+							class="badge badge-danger"
+						) Dừng hoạt động
+			td 
+				if(role.permission.includes("products-category_edit"))
+					a(class="btn btn-warning btn-sm"
+						href=`${prefixAdmin}/products-category/edit/${items.id}`
+					) Sửa
+				a(class="btn btn-secondary btn-sm ml-1"
+					href=`${prefixAdmin}/products-category/detail/${items.id}`
+				) Chi tiết
+				if(role.permission.includes("products-category_edit"))
+					button(
+						class="btn btn-danger btn-sm ml-1"
+						data-id=items.id
+						button-delete
+					) Xóa
+		if(items.children && items.children.length > 0)
+			+table-tree(items.children, level + 1)

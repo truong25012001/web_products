@@ -1,0 +1,17 @@
+extends ../../layouts/default.pug
+include ../../mixin/box-head.pug
+include ../../mixin/product-layout.pug
+block main 
+	.section-products-featured.my-5
+		.container
+			.row
+				.col-12
+					+box-head("Sản phẩm nổi bật")
+			+product-gird(productFeatured)
+
+	.section-products-featured.my-5
+		.container
+			.row
+				.col-12
+					+box-head("Sản phẩm mới nhất")
+			+product-gird(productsNew)
